@@ -1,0 +1,7 @@
+{
+    "jam_version": "0.1.9",
+    "dependencies": {
+        "jquery": null,
+        "ember": null
+    }
+}

@@ -1,0 +1,43 @@
+{% extends "partidillos/base.html" %}
+
+{% block head %}
+
+ <script src="{{ STATIC_URL}}app/jam/ember/ember-0.9.8.1.js"> </script>
+ <script src="{{ STATIC_URL}}app/my.js"> </script>
+  
+{% endblock %}
+
+{% block body %}
+
+<div data-theme="a" data-role="header">
+	<h3>Partidillos</h3>
+</div>
+<div data-role="content" style="padding: 15px" id="content">
+
+ 
+</div>
+
+   
+    <!-- for match in matches_pending
+        v [Polideportivo Lavaderos - 12: 30] - Icon (or on click I join the
+        match and the match passes to voy a jugar (js). 
+
+        - Add player to list of players of the match
+        - Alarms to the organizer when :
+        1. All players have joined. (python) -->
+
+{% endblock %}
+
+{% block javascript %}
+  <script src="{{ STATIC_URL}}app/jam/require.js" ></script>   
+  
+  <script>
+    
+    require(['pages/matches'], function (app) {
+      app.init();
+    });
+  </script>
+  
+  
+{% endblock %}
+

@@ -1,0 +1,25 @@
+      
+
+  <!-- Icon to remove myself from the match - The match passes to Otros partidos (JS) 
+
+  - Remove player from list of players of the match (python)
+    - Alarms to the organizer when :
+  1. One player have left after all players joined. (python) 
+  --!>
+ 
+      <ul data-role="listview" data-divider-theme="b" data-inset="true" >
+ <li data-role="list-divider" role="heading"> {{title}} </li>
+
+ {{#each matches }}
+  
+ <li data-theme="c">
+            <img {{action "matchClick"}} width="18px" src="/static/img/glyphicons_006_user_add.png" class="ui-li-icon">
+            </img>
+            {{ place }} - {{ date }} 
+            <span class="ui-li-count">4</span>
+ </li>
+ 
+ {{/each}}
+
+      
+      </ul>
