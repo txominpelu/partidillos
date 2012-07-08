@@ -1,0 +1,72 @@
+{% extends "partidillos/base.html" %}
+
+
+{% block head %}
+
+ <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.core.min.js"></script>
+ <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.mode.flipbox.min.js"></script>
+
+ <link rel="stylesheet" type="text/css" href="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.min.css" />
+
+ <script src="{{ STATIC_URL}}app/jam/ember/ember-0.9.8.1.js"> </script>
+ <script src="{{ STATIC_URL}}app/my.js"> </script>
+  
+{% endblock %}
+
+{% block body %}
+
+<div data-theme="a" data-role="header">
+	<h3>Crear partidillo</h3>
+</div>
+<div data-role="content" style="padding: 15px" id="content">
+
+ <form action="#" method="post">
+
+ {% csrf_token %}
+
+ <div data-role="fieldcontain">
+         {{ form.place.errors }}
+         <label for="place">Lugar:</label>
+         <input type="text" name="place" id="place" 
+         value="{% if form.place.value %} {{ form.place.value }} {% endif %}"  />
+ </div>
+ <div data-role="fieldcontain">
+         {{ form.date.errors }}
+         <label for="dia">Dia</label>
+	 <input name="dia" id="dia" type="date" data-role="datebox"
+     data-options='{"mode": "flipbox", "overrideTimeFormat": 24}' 
+     value="{% if form.date.value %} {{ form.date.value|date:"Y-m-d" }} {% endif %}"/>
+ </div>
+ <div data-role="fieldcontain">
+         <label for="hora">Hora</label>
+         <input name="hora" id="hora" type="date" data-role="datebox" data-options='{"mode": "timeflipbox", "overrideTimeFormat": 24}'
+         value="{% if form.date.value %} {{ form.date.value|date:"H:M" }} {% endif %}"/>
+ </div>
+
+  <div class="ui-body ui-body-b">
+	<fieldset class="ui-grid-a">
+		<div class="ui-block-a"><button type="submit" data-theme="d">Cancel</button></div>
+		<div class="ui-block-b"><button type="submit" data-theme="a">Submit</button></div>
+	</fieldset>
+  </div>
+
+ </form>			
+
+			
+</div>
+
+   
+    <!-- for match in matches_pending
+        v [Polideportivo Lavaderos - 12: 30] - Icon (or on click I join the
+        match and the match passes to voy a jugar (js). 
+
+        - Add player to list of players of the match
+        - Alarms to the organizer when :
+        1. All players have joined. (python) -->
+
+{% endblock %}
+
+{% block javascript %}
+  
+{% endblock %}
+

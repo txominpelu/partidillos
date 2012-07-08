@@ -16,7 +16,7 @@
             <img {{action "matchClick"}} width="18px" src="/static/img/glyphicons_006_user_add.png" class="ui-li-icon">
             </img>
             {{ place }} - {{ date }} 
-            <span class="ui-li-count">4</span>
+            <span class="ui-li-count">{{players.length}}</span>
  </li>
  
  {{/each}}

@@ -10,10 +10,19 @@ class DjangoBunch(Bunch):
     def save(self):
         pass
 
+class MyRelatedManager(list):
+
+    def all(self):
+        return self
+
+    def add(self, element):
+        self.append(element)
+
+
 class JoinTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.match = DjangoBunch(date="", place="", players=[])
+        self.match = DjangoBunch(date="", place="", players=MyRelatedManager())
 
     def testJoinMatchNoUser(self):
         self.assertEqual(views.join(None, self.match).status_code, 403) #Unauthorized
@@ -29,17 +38,15 @@ class JoinTestCase(unittest.TestCase):
 
     def testJoinMatch(self):
         user = Bunch(name="user")
-        response = views.join(user, self.match, serializer )
+        response = views.join(user, self.match )
         self.assertEqual(response.status_code, 200)
         self.assertTrue(user in self.match.players)
-
-
 class LeaveTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.match = DjangoBunch(date="", place="", players=[])
-        self.user = Bunch("player1")
-        self.match.players.append(user)
+        self.match = DjangoBunch(date="", place="", players=MyRelatedManager())
+        self.user = DjangoBunch(name="player1")
+        self.match.players.append(self.user)
 
     def testJoinMatchNoUser(self):
         self.assertEqual(views.leave(None, self.match).status_code, 403) #Unauthorized
@@ -47,14 +54,14 @@ class LeaveTestCase(unittest.TestCase):
         self.assertEqual(len(self.match.players), 1)
 
     def testLeaveMatchUserNotInMatch(self):
-        self.assertEqual(views.leave(Bunch("player2"), self.match).status_code, 403) #Precondition failed
+        self.assertEqual(views.leave(DjangoBunch(name="player2"), self.match).status_code, 403) #Precondition failed
         self.assertEqual(len(self.match.players), 1)
         #assert(joinMatch(user, match) explains that user is already in match) #Precondition failed
 
     def testLeaveMatch(self):
         response = views.leave(self.user, self.match )
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(user in self.match.players)
+        self.assertTrue(not self.user in self.match.players)
 
 
 

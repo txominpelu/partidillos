@@ -1,8 +1,9 @@
 from django.db import models
 
 from django.contrib.auth.models import User
-from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+
+from django.forms import ModelForm
 
 class UserProfile(models.Model):
     # This field is required. 
@@ -22,4 +23,8 @@ class Match(models.Model):
     place = models.CharField(max_length=30)
     players = models.ManyToManyField(UserProfile)
 
+class MatchForm(ModelForm):
 
+    class Meta:
+        model = Match
+        fields = ('date', 'place')

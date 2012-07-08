@@ -1,0 +1,4 @@
+partidillos/cover
+partidillos/.coverage
+*.swp
+*.pyc

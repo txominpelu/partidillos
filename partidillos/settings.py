@@ -124,12 +124,17 @@ INSTALLED_APPS = (
     'django_extensions',
     'bootstrapform',
     'djangorestframework',
+    'django_nose',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     'partidillos.partidillosapp',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'  
+
+NOSE_ARGS = [ '--with-coverage', '--cover-html', '--cover-package=partidillos', ]
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
