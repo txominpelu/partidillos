@@ -8,16 +8,23 @@
 
  <link rel="stylesheet" type="text/css" href="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.min.css" />
 
- <script src="{{ STATIC_URL}}app/jam/ember/ember-0.9.8.1.js"> </script>
  <script src="{{ STATIC_URL}}app/my.js"> </script>
   
 {% endblock %}
 
+
+{% block pageheader %}
+    <a href="/partidillos/joined.html" data-icon="arrow-l" data-iconpos="notext" data-direction="reverse">Voy a jugar</a>
+
+    <h3>Crear partidillo</h3>
+
+    <a href="/partidillos/pending.html" data-icon="arrow-r" 
+      data-iconpos="notext">Partidos disponibles</a> 
+{% endblock %}
+
+
 {% block body %}
 
-<div data-theme="a" data-role="header">
-	<h3>Crear partidillo</h3>
-</div>
 <div data-role="content" style="padding: 15px" id="content">
 
  <form action="#" method="post">
@@ -54,15 +61,6 @@
 
 			
 </div>
-
-   
-    <!-- for match in matches_pending
-        v [Polideportivo Lavaderos - 12: 30] - Icon (or on click I join the
-        match and the match passes to voy a jugar (js). 
-
-        - Add player to list of players of the match
-        - Alarms to the organizer when :
-        1. All players have joined. (python) -->
 
 {% endblock %}
 

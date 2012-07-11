@@ -18,7 +18,7 @@ def creatematch(request):
                 request.POST['dia'],request.POST['place'])
         if form.is_valid(): # All validation rules pass
             form.save()
-            return http.HttpResponseRedirect('/partidillos/index.html')
+            return http.HttpResponseRedirect('/partidillos/joined.html')
     else: 
         print "Tal"
         form = models.MatchForm()
@@ -47,7 +47,7 @@ def join(user, match):
     else:
         match.players.add(user)
         match.save()
-        return http.HttpResponse("success", mimetype='application/javascript')
+        return http.HttpResponseRedirect('/partidillos/joined.html')
 
 def leave(user, match):
     if not user or user not in match.players.all():
@@ -55,4 +55,4 @@ def leave(user, match):
     else:
         match.players.remove(user)
         match.save()
-        return http.HttpResponse("success", mimetype='application/javascript')
+        return http.HttpResponseRedirect('/partidillos/joined.html')

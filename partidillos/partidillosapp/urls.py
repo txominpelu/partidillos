@@ -5,33 +5,58 @@ from partidillos.partidillosapp.models import Match
 from partidillos.partidillosapp import views
 
 from django.views.generic.base import TemplateView
+from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 
 class MatchesResource(ModelResource):
     fields = ['id', 'date', 'place', 'players'] 
     model = Match
 
-class JoinedMatchesListView(ListModelView):
+class MatchesListViewHtml(ListView):
 
+    context_object_name = "matches_list"
+    template_name = 'partidillos/matches.html'
+    extra_context = {}
+    
     def get(self, request, *args, **kwargs):
-        return request.user.get_profile().match_set.all()
+        return super(MatchesListViewHtml, self).get(request, *args, **kwargs)
 
-login_index = login_required(TemplateView.as_view(template_name='partidillos/matches.html'))
 
-class PendingMatchesListView(ListModelView):
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(MatchesListViewHtml, self).get_context_data(**kwargs)
+        context.update(self.extra_context)
+        return context
 
-    def get(self, request, *args, **kwargs):
-        return Match.objects.exclude(players__id=request.user.id)
+class JoinedMatchesListViewHtml(MatchesListViewHtml):
+
+    extra_context={'title':'Voy a jugar', 'action': 'leave',
+                  'oppositepage': 'pending',
+                  'oppositetitle': 'Partidos disponibles'}
+
+    def get_queryset(self):
+        return self.request.user.get_profile().match_set.all()
+
+class PendingMatchesListViewHtml(MatchesListViewHtml):
+
+    extra_context={'title':'Partidos disponibles', 'action': 'join',
+                  'oppositepage': 'joined',
+                  'oppositetitle': 'Voy a jugar'}
+
+    def get_queryset(self):
+        return Match.objects.exclude(players__id=self.request.user.id)
+    
+
+login_joined = login_required( JoinedMatchesListViewHtml.as_view())
+login_pending = login_required( PendingMatchesListViewHtml.as_view())
+
 
 urlpatterns = patterns('',
     url(r'^api/matches/(?P<matchId>\d{1,10})/(?P<funcName>join|leave)/$', views.updatePlayers),
-    url(r'^api/matches/joined/$',
-        JoinedMatchesListView.as_view(resource=MatchesResource)),
-    url(r'^api/matches/pending/$',
-        PendingMatchesListView.as_view(resource=MatchesResource)),
     # Examples:
     # url(r'^$', 'partidillos.views.home', name='home'),
-    url(r'^index.html$', login_index),
+    url(r'^joined.html$', login_joined ),
+    url(r'^pending.html$', login_pending ),
     url(r'^create-match.html$', views.creatematch),
 
 )
