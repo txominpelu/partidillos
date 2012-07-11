@@ -8,6 +8,8 @@ from django.views.generic.base import TemplateView
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 
+from datetime import datetime
+
 class MatchesResource(ModelResource):
     fields = ['id', 'date', 'place', 'players'] 
     model = Match
@@ -44,7 +46,8 @@ class PendingMatchesListViewHtml(MatchesListViewHtml):
                   'oppositetitle': 'Voy a jugar'}
 
     def get_queryset(self):
-        return Match.objects.exclude(players__id=self.request.user.id)
+        
+        return Match.objects.exclude(players__id=self.request.user.id).filter(date__gt=datetime.now())
     
 
 login_joined = login_required( JoinedMatchesListViewHtml.as_view())

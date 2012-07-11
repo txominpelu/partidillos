@@ -10,6 +10,8 @@ from django.core import serializers
 from django.contrib.auth.decorators import login_required
 
 from datetime import datetime
+from pytz import timezone
+from django.utils.timezone import utc
 
 @login_required
 def creatematch(request):
@@ -20,7 +22,6 @@ def creatematch(request):
             form.save()
             return http.HttpResponseRedirect('/partidillos/joined.html')
     else: 
-        print "Tal"
         form = models.MatchForm()
 
     return shortcuts.render(request, 'partidillos/creatematch.html', { 'form': form, })
@@ -28,8 +29,9 @@ def creatematch(request):
 def _create_creatematchform(time, day, place):
     """ Given the form data return the form for the Match model."""
     datetimestr = "{0} {1}".format(day, time)
+    zone = timezone('Europe/Madrid')
     try:
-        date = datetime.strptime(datetimestr, "%Y-%m-%d %H:%M")
+        date = zone.localize(datetime.strptime(datetimestr, "%Y-%m-%d %H:%M")).astimezone(utc)
     except ValueError:
         date = None
     matchdict = { 'place': place , 'date': date}

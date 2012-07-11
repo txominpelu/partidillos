@@ -13,13 +13,16 @@
     <h3>{{ title }}</h3>
 
     <a href="/partidillos/create-match.html" data-icon="plus" 
-      data-iconpos="notext">{{ oppositetitle }}</a> 
+      data-iconpos="notext" rel="external">Crear partido</a> 
 {% endblock %}
 
 {% block body %}
 
 <div data-role="content" style="padding: 15px" id="content">
 
+    {% load tz %}
+
+    {% timezone "Europe/Madrid" %}
 
     <ul data-role="listview" data-divider-theme="b" data-inset="true" >
         <li data-role="list-divider" role="heading"> {{title}} </li>
@@ -27,7 +30,8 @@
         {% for match in matches_list %}
   
         <li data-theme="c">
-        <a href="/partidillos/api/matches/{{ match.id }}/{{ action }}/">
+        <a href="/partidillos/api/matches/{{ match.id }}/{{ action }}/"
+            rel="external">
             <img  width="18px" src="/static/img/user_{{ action }}_match.png" 
             class="ui-li-icon"> 
             </img>
@@ -39,6 +43,7 @@
         {% endfor %}
 
       
+    {% endtimezone %}
     </ul>
  
 </div>

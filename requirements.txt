@@ -12,4 +12,5 @@ django-nose==1.1
 djangorestframework==0.3.3
 nose==1.1.2
 psycopg2==2.4.5
+pytz==2012c
 wsgiref==0.1.2
