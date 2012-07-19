@@ -7,7 +7,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'partidillos.views.home', name='home'),
-    url(r'^partidillos/', include('partidillos.partidillosapp.urls')),
+    url(r'', include('partidillos.partidillosapp.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

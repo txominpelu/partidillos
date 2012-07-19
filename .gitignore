@@ -1,5 +1,6 @@
 partidillos/cover/*
 partidillos/.coverage
 *.swp
+*.swo
 *.pyc
 venv

@@ -10,7 +10,7 @@
 {% block pageheader %}
     <a href="/{{oppositepage}}.html" data-icon="arrow-l" data-iconpos="notext" data-direction="reverse">{{ oppositetitle }}</a>
 
-    <h3>{{ title }}</h3>
+    <h3>Datos del Partido</h3>
 
     <a href="/create-match.html" data-icon="plus" 
       data-iconpos="notext" rel="external">Crear partido</a> 
@@ -23,28 +23,32 @@
     {% load tz %}
 
     {% timezone "Europe/Madrid" %}
+    <p> <strong>Lugar:</strong> {{ match.place }} </p>
+    <p> <strong>Fecha:</strong> {{ match.date }} </p>
+
+    {% endtimezone %}
 
     <ul data-role="listview" data-divider-theme="b" data-inset="true" >
-        <li data-role="list-divider" role="heading"> {{title}} </li>
+        <li data-role="list-divider" role="heading"> Jugadores </li>
 
-        {% for match in matches_list %}
   
+        {% for player in match.players.all %}
         <li data-theme="c">
-        <a href="/api/matches/{{ match.id }}/{{ action }}/"
-            rel="external">
-            <img  width="18px" src="/static/img/user_{{ action }}_match.png" 
-            class="ui-li-icon"> 
-            </img>
-            {{ match.place }} - {{ match.date }} 
-            <span class="ui-li-count">{{match.players.all|length}}</span>
-        </a>
+            {{ player.user.username }}
         </li>
- 
         {% endfor %}
-
-      
-    {% endtimezone %}
+ 
     </ul>
+    {% if user.get_profile not in match.players.all %}
+
+    <a href="/api/matches/{{ match.id }}/join/" data-role="button"
+        rel="external">Unirse</a>
+    {% else %}
+
+    <a href="/api/matches/{{ match.id }}/leave/" data-role="button"
+        rel="external">Abandonar</a>
+    
+    {% endif %}
  
 </div>
 

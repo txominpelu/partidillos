@@ -8,11 +8,9 @@ from django.views.generic.base import TemplateView
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 
-from datetime import datetime
+from django.views.generic.detail import DetailView
 
-class MatchesResource(ModelResource):
-    fields = ['id', 'date', 'place', 'players'] 
-    model = Match
+from datetime import datetime
 
 class MatchesListViewHtml(ListView):
 
@@ -50,16 +48,24 @@ class PendingMatchesListViewHtml(MatchesListViewHtml):
         return Match.objects.exclude(players__id=self.request.user.id).filter(date__gt=datetime.now())
     
 
+class MatchDetailView(DetailView):
+
+    model = Match
+    template_name='partidillos/match.html'
+    # Defines the context name in the template
+    context_object_name = 'match'
+    
 login_joined = login_required( JoinedMatchesListViewHtml.as_view())
 login_pending = login_required( PendingMatchesListViewHtml.as_view())
-
 
 urlpatterns = patterns('',
     url(r'^api/matches/(?P<matchId>\d{1,10})/(?P<funcName>join|leave)/$', views.updatePlayers),
     # Examples:
     # url(r'^$', 'partidillos.views.home', name='home'),
+    url(r'^$', login_joined ),
     url(r'^joined.html$', login_joined ),
     url(r'^pending.html$', login_pending ),
+    url(r'^match/(?P<pk>[\d]+)/$', MatchDetailView.as_view()),
     url(r'^create-match.html$', views.creatematch),
 
 )

@@ -20,11 +20,11 @@ def creatematch(request):
                 request.POST['dia'],request.POST['place'])
         if form.is_valid(): # All validation rules pass
             form.save()
-            return http.HttpResponseRedirect('/partidillos/joined.html')
+            return http.HttpResponseRedirect('joined.html')
     else: 
         form = models.MatchForm()
 
-    return shortcuts.render(request, 'partidillos/creatematch.html', { 'form': form, })
+    return shortcuts.render(request, 'creatematch.html', { 'form': form, })
 
 def _create_creatematchform(time, day, place):
     """ Given the form data return the form for the Match model."""
@@ -49,7 +49,7 @@ def join(user, match):
     else:
         match.players.add(user)
         match.save()
-        return http.HttpResponseRedirect('/partidillos/joined.html')
+        return http.HttpResponseRedirect('/joined.html')
 
 def leave(user, match):
     if not user or user not in match.players.all():
@@ -57,4 +57,4 @@ def leave(user, match):
     else:
         match.players.remove(user)
         match.save()
-        return http.HttpResponseRedirect('/partidillos/joined.html')
+        return http.HttpResponseRedirect('/joined.html')
