@@ -28,24 +28,58 @@ class MatchesListViewHtml(ListView):
         context.update(self.extra_context)
         return context
 
+class Context(object):
+
+    def as_dict(self):
+        self.links = [ globals()[link]() for link in self.links]
+        return [(name, getattr(self,name)) for name in dir(self) 
+                if not callable(getattr(self,name)) and 
+                not name.startswith('__')]
+
+class JoinedContext(Context):
+
+    title = 'Voy a jugar'
+    action = 'leave'
+    icon = 'star'
+    page = 'joined'
+    links = ['PendingContext', 'MyMatchesContext'] 
+
+class PendingContext(Context):
+
+    title = 'Disponibles'
+    action = 'join'
+    icon = 'arrow-l'
+    page = 'pending'
+    links = ['JoinedContext', 'MyMatchesContext'] 
+
+class MyMatchesContext(Context):
+
+    title = 'Mis partidos'
+    page = 'mymatches'
+    links = ['JoinedContext', 'PendingContext'] 
+
 class JoinedMatchesListViewHtml(MatchesListViewHtml):
 
-    extra_context={'title':'Voy a jugar', 'action': 'leave',
-                  'oppositepage': 'pending',
-                  'oppositetitle': 'Partidos disponibles'}
+    extra_context= JoinedContext().as_dict()
 
     def get_queryset(self):
         return self.request.user.get_profile().match_set.all()
 
 class PendingMatchesListViewHtml(MatchesListViewHtml):
 
-    extra_context={'title':'Partidos disponibles', 'action': 'join',
-                  'oppositepage': 'joined',
-                  'oppositetitle': 'Voy a jugar'}
+    extra_context= PendingContext().as_dict()
 
     def get_queryset(self):
         
         return Match.objects.exclude(players__id=self.request.user.id).filter(date__gt=datetime.now())
+    
+class MyMatchesListViewHtml(MatchesListViewHtml):
+
+    extra_context= MyMatchesContext().as_dict()
+
+    def get_queryset(self):
+        
+        return Match.objects.filter(creator__id=self.request.user.id).filter(date__gt=datetime.now())
     
 
 class MatchDetailView(DetailView):
@@ -57,6 +91,7 @@ class MatchDetailView(DetailView):
     
 login_joined = login_required( JoinedMatchesListViewHtml.as_view())
 login_pending = login_required( PendingMatchesListViewHtml.as_view())
+login_mymatches = login_required( MyMatchesListViewHtml.as_view())
 
 urlpatterns = patterns('',
     url(r'^api/matches/(?P<matchId>\d{1,10})/(?P<funcName>join|leave)/$', views.updatePlayers),
@@ -65,6 +100,7 @@ urlpatterns = patterns('',
     url(r'^$', login_joined ),
     url(r'^joined.html$', login_joined ),
     url(r'^pending.html$', login_pending ),
+    url(r'^mymatches.html$', login_mymatches ),
     url(r'^match/(?P<pk>[\d]+)/$', MatchDetailView.as_view()),
     url(r'^create-match.html$', views.creatematch),
 

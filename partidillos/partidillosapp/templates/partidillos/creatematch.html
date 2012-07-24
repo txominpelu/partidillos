@@ -1,29 +1,6 @@
 {% extends "partidillos/base.html" %}
 
-
-{% block head %}
-
- <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.core.min.js"></script>
- <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.mode.calbox.min.js"></script> 
- <script type="text/javascript"
-     src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.mode.datebox.min.js"></script> 
-
- <link rel="stylesheet" type="text/css" href="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.min.css" />
-
- <script src="{{ STATIC_URL}}app/my.js"> </script>
-  
-{% endblock %}
-
-
-{% block pageheader %}
-    <a href="/joined.html" data-icon="arrow-l" data-iconpos="notext" data-direction="reverse">Voy a jugar</a>
-
-    <h3>Crear partidillo</h3>
-
-    <a href="/pending.html" data-icon="arrow-r" 
-      data-iconpos="notext">Partidos disponibles</a> 
-{% endblock %}
-
+{% block navbartitle %}Crear Partidillo{% endblock %}
 
 {% block body %}
 
@@ -64,9 +41,5 @@
 			
 </div>
 
-{% endblock %}
-
-{% block javascript %}
-  
 {% endblock %}
 

@@ -7,13 +7,15 @@
 {% endblock %}
 
 
-{% block pageheader %}
-    <a href="/{{oppositepage}}.html" data-icon="arrow-l" data-iconpos="notext" data-direction="reverse">{{ oppositetitle }}</a>
+{% block navbartitle %} {{ title }} {% endblock %}
 
-    <h3>{{ title }}</h3>
+{% block navbarlinks %}
 
-    <a href="/create-match.html" data-icon="plus" 
-      data-iconpos="notext" rel="external">Crear partido</a> 
+    {% for link in links %}
+        <li><a href="/{{link.page}}.html" data-icon="{{link.icon}}"
+            data-iconpos="notext">{{ link.title }}</a></li>
+    {% endfor %}
+
 {% endblock %}
 
 {% block body %}
@@ -31,9 +33,11 @@
   
         <li data-theme="c">
         <a href="/match/{{ match.id }}/" rel="external">
+            {% if action %}
             <img  width="18px" src="/static/img/user_{{ action }}_match.png" 
             class="ui-li-icon"> 
             </img>
+            {% endif %}
             {{ match.place }} - {{ match.date }} 
             <span class="ui-li-count">{{match.players.all|length}}</span>
         </a>
@@ -48,17 +52,6 @@
 </div>
 
    
-    <!-- for match in matches_pending
-        v [Polideportivo Lavaderos - 12: 30] - Icon (or on click I join the
-        match and the match passes to voy a jugar (js). 
-
-        - Add player to list of players of the match
-        - Alarms to the organizer when :
-        1. All players have joined. (python) -->
-
 {% endblock %}
 
-{% block javascript %}
-  
-{% endblock %}
 

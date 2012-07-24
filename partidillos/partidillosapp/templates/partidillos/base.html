@@ -3,26 +3,30 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>
+
+<title> 
+  {% block title %} {% endblock %}
 </title>
+
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css"/>
 <link rel="stylesheet" href="{{ STATIC_URL}}css/my.css"/>
-<style>
-            /* App custom styles */
-</style>
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
         </script>
 <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js">
         </script>
+ <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.core.min.js"></script>
+ <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.mode.calbox.min.js"></script> 
+ <script type="text/javascript"
+     src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.mode.datebox.min.js"></script> 
+
+ <link rel="stylesheet" type="text/css" href="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.min.css" />
+<script src="{{ STATIC_URL}}app/my.js"> </script>
 
 {% load l10n %}
 
 {% localize on %} 
 
-{% block head %}
-
-  
-{% endblock %}
 
 </head>
 <body>
@@ -32,7 +36,17 @@
   <div data-theme="a" data-role="header">
 
     {% block pageheader %}
-    <h3>Partidillos</h3>
+
+    <h3>{% block navbartitle %}{% endblock %}</h3>
+
+    <a href="index.html" data-iconpos="notext" data-icon="back" data-rel="back" class="ui-btn-right"></a>
+    <div data-role="navbar" data-iconpos="left">
+      <ul>
+        {% block navbarlinks %}
+        {% endblock %}
+      </ul>
+    </div>
+        
     {% endblock %}
 
   </div>

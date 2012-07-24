@@ -17,16 +17,17 @@ from django.utils.timezone import utc
 def creatematch(request):
     if request.method == 'POST': # If the form has been submitted...
         form = _create_creatematchform(request.POST['hora'],
-                request.POST['dia'],request.POST['place'])
+                request.POST['dia'],request.POST['place'],
+                request.user.get_profile())
         if form.is_valid(): # All validation rules pass
             form.save()
             return http.HttpResponseRedirect('joined.html')
     else: 
         form = models.MatchForm()
 
-    return shortcuts.render(request, 'creatematch.html', { 'form': form, })
+    return shortcuts.render(request, 'partidillos/creatematch.html', { 'form': form, })
 
-def _create_creatematchform(time, day, place):
+def _create_creatematchform(time, day, place, user):
     """ Given the form data return the form for the Match model."""
     datetimestr = "{0} {1}".format(day, time)
     zone = timezone('Europe/Madrid')
@@ -34,7 +35,7 @@ def _create_creatematchform(time, day, place):
         date = zone.localize(datetime.strptime(datetimestr, "%Y-%m-%d %H:%M")).astimezone(utc)
     except ValueError:
         date = None
-    matchdict = { 'place': place , 'date': date}
+    matchdict = { 'place': place , 'date': date, 'creator': user.pk}
     return models.MatchForm(matchdict)
 
 @login_required
