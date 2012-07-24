@@ -21,12 +21,12 @@
          <label for="dia">Dia</label>
 	 <input name="dia" id="dia" type="date" data-role="datebox"
      data-options='{"mode": "calbox", "overrideTimeFormat": 24}' 
-     value="{% if form.date.value %} {{ form.date.value|date:"Y-m-d" }} {% endif %}"/>
+     value="{% if form.date.value %}{{ form.date.value|date:"Y-m-d" }}{% endif %}"/>
  </div>
  <div data-role="fieldcontain">
          <label for="hora">Hora</label>
          <input name="hora" id="hora" type="date" data-role="datebox" data-options='{"mode": "timebox", "overrideTimeFormat": 24}'
-         value="{% if form.date.value %} {{ form.date.value|date:"H:M" }} {% endif %}"/>
+         value="{% if form.date.value %}{{ form.date.value|date:"H:i" }}{% endif %}"/>
  </div>
 
   <div class="ui-body ui-body-b">
