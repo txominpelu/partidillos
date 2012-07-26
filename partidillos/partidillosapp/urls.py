@@ -19,8 +19,6 @@ class MatchDetailView(DetailView):
     
 
 urlpatterns = patterns('',
-    url(r'^api/matches/(?P<matchId>\d{1,10})/(?P<funcName>join|leave)/$', main.updatePlayers),
-    # Examples:
     # url(r'^$', 'partidillos.views.home', name='home'),
     url(r'^$', matches.JoinedMatchesListViewHtml.as_view() ),
     url(r'^joined.html$', matches.JoinedMatchesListViewHtml.as_view() ),
@@ -29,5 +27,8 @@ urlpatterns = patterns('',
     url(r'^match/(?P<pk>[\d]+)/$', MatchDetailView.as_view()),
     url(r'^match/create/$', main.creatematch),
     url(r'^match/(?P<pk>[\d]+)/edit/$', main.creatematch),
+    url(r'^match/(?P<pk>\d{1,10})/(?P<funcName>join|leave|delete)/$',
+        main.update_match),
+    # Examples:
 
 )

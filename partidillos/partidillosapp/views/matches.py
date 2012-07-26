@@ -35,6 +35,7 @@ class MyMatchesContext(Context):
 
     title = 'Mis partidos'
     page = 'mymatches'
+    onclick = 'edit/'
     links = ['JoinedContext', 'PendingContext'] 
 
 
@@ -44,6 +45,9 @@ class MatchesListViewHtml(ListView):
     template_name = 'partidillos/matches.html'
     extra_context = {}
     
+    def filter_outdated(self, queryset): 
+        return queryset.filter(date__gt=datetime.now())
+
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(MatchesListViewHtml, self).dispatch(*args, **kwargs)
@@ -58,12 +62,13 @@ class MatchesListViewHtml(ListView):
         context.update(self.extra_context)
         return context
 
+
 class JoinedMatchesListViewHtml(MatchesListViewHtml):
 
     extra_context= JoinedContext().as_dict()
 
     def get_queryset(self):
-        return self.request.user.get_profile().match_set.all()
+        return self.filter_outdated(self.request.user.get_profile().match_set)
 
 class PendingMatchesListViewHtml(MatchesListViewHtml):
 
@@ -71,7 +76,7 @@ class PendingMatchesListViewHtml(MatchesListViewHtml):
 
     def get_queryset(self):
         
-        return Match.objects.exclude(players__id=self.request.user.id).filter(date__gt=datetime.now())
+        return self.filter_outdated(Match.objects.exclude(players__id=self.request.user.id))
     
 class MyMatchesListViewHtml(MatchesListViewHtml):
 
@@ -79,5 +84,5 @@ class MyMatchesListViewHtml(MatchesListViewHtml):
 
     def get_queryset(self):
         
-        return Match.objects.filter(creator__id=self.request.user.id).filter(date__gt=datetime.now())
+        return self.filter_outdated(Match.objects.filter(creator__id=self.request.user.id))
     

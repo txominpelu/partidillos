@@ -14,7 +14,7 @@
          {{ form.place.errors }}
          <label for="place">Lugar:</label>
          <input type="text" name="place" id="place" 
-         value="{% if form.place.value %} {{ form.place.value }} {% endif %}"  />
+         value="{% if form.place.value %}{{form.place.value}}{% endif %}"  />
  </div>
  <div data-role="fieldcontain">
          {{ form.date.errors }}
@@ -31,8 +31,10 @@
 
   <div class="ui-body ui-body-b">
 	<fieldset class="ui-grid-a">
-		<div class="ui-block-a"><button type="submit" data-theme="d">Cancel</button></div>
-		<div class="ui-block-b"><button type="submit" data-theme="a">Submit</button></div>
+        {% if pk %}
+        <div class="ui-block-a"><a href="/match/{{ pk }}/delete/" data-role="button" data-theme="c">Borrar</a></div>
+        {% endif %}
+		<div class="ui-block-b"><button type="submit" data-theme="a">Enviar</button></div>
 	</fieldset>
   </div>
 

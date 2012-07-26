@@ -16,6 +16,7 @@ from django.utils.timezone import utc
 @login_required
 def creatematch(request, pk=None):
     instance = models.Match.objects.get(pk=pk) if pk else None
+    print pk
     # TODO: only creator
     # Check that if it's a post and is editing an existing match
     # the user making the request has to be the creator
@@ -29,7 +30,8 @@ def creatematch(request, pk=None):
     else:
         form = models.MatchForm(instance=instance)
 
-    return shortcuts.render(request, 'partidillos/creatematch.html', { 'form': form, })
+    return shortcuts.render(request, 'partidillos/creatematch.html', { 'form':
+        form, 'pk': pk})
 
 
 
@@ -48,10 +50,10 @@ def _get_date(time, day):
     return date
 
 @login_required
-def updatePlayers(request, matchId, funcName):
+def update_match(request, pk, funcName):
     user = request.user.get_profile()
     func = globals()[funcName]
-    return func(user, models.Match.objects.get(pk=matchId))
+    return func(user, models.Match.objects.get(pk=pk))
 
 def join(user, match):
     if not user or user in match.players.all() :
@@ -68,3 +70,10 @@ def leave(user, match):
         match.players.remove(user)
         match.save()
         return http.HttpResponseRedirect('/joined.html')
+
+def delete(user, match):
+    if not user or not (user == match.creator):
+        return http.HttpResponseForbidden()
+    else:
+        match.delete()
+        return http.HttpResponseRedirect('/mymatches.html')

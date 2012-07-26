@@ -34,11 +34,11 @@
     </ul>
     {% if user.get_profile not in match.players.all %}
 
-    <a href="/api/matches/{{ match.id }}/join/" data-role="button"
+    <a href="/match/{{ match.id }}/join/" data-role="button"
         rel="external">Unirse</a>
     {% else %}
 
-    <a href="/api/matches/{{ match.id }}/leave/" data-role="button"
+    <a href="/match/{{ match.id }}/leave/" data-role="button"
         rel="external">Abandonar</a>
     
     {% endif %}
@@ -46,14 +46,6 @@
 </div>
 
    
-    <!-- for match in matches_pending
-        v [Polideportivo Lavaderos - 12: 30] - Icon (or on click I join the
-        match and the match passes to voy a jugar (js). 
-
-        - Add player to list of players of the match
-        - Alarms to the organizer when :
-        1. All players have joined. (python) -->
-
 {% endblock %}
 
 {% block javascript %}

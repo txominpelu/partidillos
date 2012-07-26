@@ -29,7 +29,7 @@
         {% for match in matches_list %}
   
         <li data-theme="c">
-        <a href="/match/{{ match.id }}/">
+        <a href="/match/{{ match.id }}/{{onclick}}">
             {% if action %}
             <img  width="18px" src="/static/img/user_{{ action }}_match.png" 
             class="ui-li-icon"> 
