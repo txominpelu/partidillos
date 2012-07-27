@@ -19,7 +19,7 @@ class GetDateTestCase(test.TestCase):
 
     def setUp(self):
         self.date = date(2005, 10, 25)
-        self.datestr = self.date.strftime("%Y-%m-%d")
+        self.datestr = self.date.strftime("%d-%m-%Y")
         self.time = time(12, 30)
         self.timestr = self.time.strftime("%H:%M")
         self.datetime = timezone('Europe/Madrid').localize(datetime.combine(self.date, self.time))
@@ -72,7 +72,7 @@ class CreateMatchTestCase(test.TestCase):
 
     def setUp(self):
         self.date = date(2005, 10, 25)
-        self.datestr = self.date.strftime("%Y-%m-%d")
+        self.datestr = self.date.strftime("%d-%m-%Y")
         self.time = time(12, 30)
         self.timestr = self.time.strftime("%H:%M")
         self.datetime = datetime.combine(self.date, self.time)

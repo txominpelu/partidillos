@@ -46,7 +46,7 @@ class MatchesListViewHtml(ListView):
     extra_context = {}
     
     def filter_outdated(self, queryset): 
-        return queryset.filter(date__gt=datetime.now())
+        return queryset.filter(date__gt=datetime.now()).order_by('-date')
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):

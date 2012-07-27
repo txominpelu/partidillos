@@ -19,13 +19,13 @@
  <div data-role="fieldcontain">
          {{ form.date.errors }}
          <label for="dia">Dia</label>
-	 <input name="dia" id="dia" type="date" placeholder="YYYY-MM-DD"
-     value="{% if form.date.value %}{{ form.date.value|date:"Y-m-d" }}{% endif %}"/>
+	 <input name="dia" id="dia" type="text" placeholder="DD-MM-YYYY"
+     value="{% if form.date.value %}{{ form.date.value|date:"d-m-Y" }}{% endif %}"/>
      <a id="diabutton" data-role="button">Dia</a>
  </div>
  <div data-role="fieldcontain">
          <label for="hora">Hora</label>
-         <input name="hora" id="hora" type="time" placeholder="HH:MM"
+         <input name="hora" id="hora" type="text" placeholder="HH:MM"
          value="{% if form.date.value %}{{ form.date.value|date:"H:i" }}{% else %}{% now "H" %}:00{% endif %}"/>
          <a id="horabutton" data-role="button">Hora</a>
  </div>
@@ -65,7 +65,8 @@
             display: 'modal',
             stepMinute: 30,
             mode: 'scroller',
-            dateOrder: 'D dd mm y'
+            dateOrder: 'D dd mm y',
+            dateFormat: 'dd-mm-yy',
         });    
         $('#diabutton').click(function(){
             $('#dia').scroller('show'); 

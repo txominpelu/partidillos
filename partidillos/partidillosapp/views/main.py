@@ -44,7 +44,7 @@ def _get_date(time, day):
     datetimestr = "{0} {1}".format(day, time)
     zone = timezone('Europe/Madrid')
     try:
-        date = zone.localize(datetime.strptime(datetimestr, "%Y-%m-%d %H:%M"))
+        date = zone.localize(datetime.strptime(datetimestr, "%d-%m-%Y %H:%M"))
     except ValueError:
         date = None
     return date
