@@ -15,12 +15,17 @@
         </script>
 <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js">
         </script>
- <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.core.min.js"></script>
+        <script src="{{ STATIC_URL }}app/external/mobiscroll-2.0.1.custom.min.js">
+        </script>
+<!-- <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.core.min.js"></script>
  <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.mode.calbox.min.js"></script> 
  <script type="text/javascript"
      src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.mode.datebox.min.js"></script> 
 
- <link rel="stylesheet" type="text/css" href="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.min.css" />
+ <link rel="stylesheet" type="text/css"
+ href="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.min.css" /> -->
+ <link rel="stylesheet" type="text/css"
+ href="{{ STATIC_URL }}css/mobiscroll-2.0.1.custom.min.css" /> 
 <script src="{{ STATIC_URL}}app/my.js"> </script>
 
 {% load l10n %}
@@ -33,7 +38,7 @@
 
 </head>
 <body>
-<  !-- Home -->
+
 <div data-role="page" id="page1"> 
 
   <div data-theme="a" data-role="header">

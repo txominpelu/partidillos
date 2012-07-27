@@ -19,15 +19,15 @@
  <div data-role="fieldcontain">
          {{ form.date.errors }}
          <label for="dia">Dia</label>
-	 <input name="dia" id="dia" type="date" data-role="datebox"
-     data-options='{"mode": "calbox", "overrideTimeFormat": 24, "useInline":true}' 
+	 <input name="dia" id="dia" type="date" placeholder="YYYY-MM-DD"
      value="{% if form.date.value %}{{ form.date.value|date:"Y-m-d" }}{% endif %}"/>
+     <a id="diabutton" data-role="button">Dia</a>
  </div>
  <div data-role="fieldcontain">
          <label for="hora">Hora</label>
-         <input name="hora" id="hora" type="date" data-role="datebox"
-         data-options='{"mode": "timebox", "overrideTimeFormat": 24, "useInline":true}'
-         value="{% if form.date.value %}{{ form.date.value|date:"H:i" }}{% endif %}"/>
+         <input name="hora" id="hora" type="time" placeholder="HH:MM"
+         value="{% if form.date.value %}{{ form.date.value|date:"H:i" }}{% else %}{% now "H" %}:00{% endif %}"/>
+         <a id="horabutton" data-role="button">Hora</a>
  </div>
 
   <div class="ui-body ui-body-b">
@@ -41,6 +41,40 @@
 
  </form>			
 
+{% block javascript %}
+
+<script>
+    $(function(){
+        $('#hora').scroller({
+            preset: 'time',
+            theme: 'jqm',
+            display: 'modal',
+            mode: 'scroller',
+            showOnFocus: false,
+            timeWheels: 'HHii',
+            timeFormat: 'HH:ii',
+        });    
+        $('#horabutton').click(function(){
+            $('#hora').scroller('show'); 
+            return false;
+        });
+        $('#dia').scroller({
+            preset: 'date',
+            theme: 'jqm',
+            display: 'modal',
+            stepMinute: 30,
+            mode: 'scroller',
+            dateOrder: 'D dd mm y'
+        });    
+        $('#diabutton').click(function(){
+            $('#dia').scroller('show'); 
+            return false;
+        });
+
+    });
+    
+</script>
+{% endblock %}
 			
 </div>
 
