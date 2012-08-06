@@ -31,12 +31,14 @@
  </div>
 
   <div class="ui-body ui-body-b">
-	<fieldset class="ui-grid-a">
         {% if pk %}
+	<fieldset class="ui-grid-a">
         <div class="ui-block-a"><a href="/match/{{ pk }}/delete/" data-role="button" data-theme="c">Borrar</a></div>
-        {% endif %}
 		<div class="ui-block-b"><button type="submit" data-theme="a">Enviar</button></div>
 	</fieldset>
+        {% else %}
+            <button type="submit" data-theme="a">Enviar</button></div>
+        {% endif %}
   </div>
 
  </form>			
