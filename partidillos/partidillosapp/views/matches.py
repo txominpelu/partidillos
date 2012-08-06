@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 from partidillos.partidillosapp.models import Match
+from django.utils import timezone
 
 class Context(object):
 
@@ -46,7 +47,8 @@ class MatchesListViewHtml(ListView):
     extra_context = {}
     
     def filter_outdated(self, queryset): 
-        return queryset.filter(date__gt=datetime.now()).order_by('-date')
+        print "timezone: {0}".format(timezone.now())
+        return queryset.filter(date__gt=timezone.now())
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
@@ -83,6 +85,9 @@ class MyMatchesListViewHtml(MatchesListViewHtml):
     extra_context= MyMatchesContext().as_dict()
 
     def get_queryset(self):
+        return self.get_mymatches(self.request.user)
         
-        return self.filter_outdated(Match.objects.filter(creator__id=self.request.user.id))
+
+    def get_mymatches(self, user):
+        return self.filter_outdated(Match.objects.filter(creator__id=user.id))
     
