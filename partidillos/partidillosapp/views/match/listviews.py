@@ -78,7 +78,7 @@ class PendingMatchesListViewHtml(MatchesListViewHtml):
 
     def get_queryset(self):
         
-        return self.filter_outdated(Match.objects.exclude(players__id=self.request.user.id))
+        return self.filter_outdated(Match.objects.exclude(players__id=self.request.user.id).filter(invited__id=self.request.user.id))
     
 class MyMatchesListViewHtml(MatchesListViewHtml):
 

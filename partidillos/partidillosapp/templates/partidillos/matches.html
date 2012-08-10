@@ -28,7 +28,7 @@
 
         {% for match in matches_list %}
   
-        <li data-theme="c">
+        <li data-theme="c"  {% if not action %} data-icon="gear" {% endif %}>
         <a href="/match/{{ match.id }}/{{onclick}}">
             {% if action %}
             <img  width="18px" src="/static/img/user_{{ action }}_match.png" 

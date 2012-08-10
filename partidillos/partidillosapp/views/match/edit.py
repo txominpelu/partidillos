@@ -16,13 +16,15 @@ from django.utils.timezone import utc
 @login_required
 def creatematch(request, pk=None):
     instance = models.Match.objects.get(pk=pk) if pk else None
-    print pk
     # TODO: only creator
     # Check that if it's a post and is editing an existing match
     # the user making the request has to be the creator
+    print "RequestPost:{0}".format(request.POST)
     if request.method == 'POST': # If the form has been submitted...
-        form = _create_form(_get_date(request.POST['hora'],request.POST['dia']),
-                request.POST['place'], request.user.get_profile().pk, instance)
+        mydict = request.POST.copy()
+        mydict.update({'date':_get_date(request.POST['hora'],request.POST['dia'])})
+        mydict.update({'creator': request.user.get_profile().pk})
+        form = models.MatchForm(mydict,instance=instance)
 
         if form.is_valid(): # All validation rules pass
             form.save()
@@ -34,11 +36,12 @@ def creatematch(request, pk=None):
         form, 'pk': pk})
 
 
-
-def _create_form(date, place, userid, instance=None):
+def _create_form(date, place, userid, invited, instance=None):
     """ Given the form data return the form for the Match model."""
-    matchdict = { 'place': place , 'date': date, 'creator': userid}
-    return models.MatchForm(matchdict,instance=instance)
+    print "invited:{0}".format(invited)
+    matchdict = { 'place': place , 'date': date, 'creator': userid,
+            'invited': invited}
+    return 
 
 def _get_date(time, day):
     datetimestr = "{0} {1}".format(day, time)

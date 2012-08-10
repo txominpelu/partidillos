@@ -1,5 +1,6 @@
 partidillos/cover/*
 partidillos/.coverage
+*.swn
 *.swp
 *.swo
 *.pyc

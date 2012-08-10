@@ -23,10 +23,11 @@ class Match(models.Model):
     date = models.DateTimeField() 
     place = models.CharField(max_length=30)
     players = models.ManyToManyField(UserProfile)
+    invited = models.ManyToManyField(UserProfile, related_name='invited')
     creator = models.ForeignKey(UserProfile, related_name='creator')
 
 class MatchForm(ModelForm):
 
     class Meta:
         model = Match
-        fields = ('date', 'place', 'creator')
+        fields = ('date', 'place', 'creator', 'invited')

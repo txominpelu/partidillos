@@ -30,6 +30,28 @@
          <a id="horabutton" data-role="button">Hora</a>
  </div>
 
+    {% if not pk %}
+        <div data-role="fieldcontain">
+             {{ form.invited.errors }}
+             <label for="id_invited">Invitados</label>
+             {{ form.invited }}
+        </div>
+    {% else %}
+        <div class="ui-body">
+            <ul data-role="listview" data-divider-theme="b" data-inset="true" >
+                <li data-role="list-divider" role="heading"> Invitados </li>
+
+          
+                {% for invited in form.instance.invited.all %}
+                <li data-theme="c">
+                    {{ invited }}
+                </li>
+                {% endfor %}
+         
+            </ul>
+
+        </div>
+    {% endif %}
   <div class="ui-body ui-body-b">
         {% if pk %}
 	<fieldset class="ui-grid-a">
